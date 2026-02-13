@@ -1,0 +1,57 @@
+`timescale 1ns/1ps
+
+// ======================================================
+// Testbench for 8-bit ALU
+// ======================================================
+
+module alu_8bit_tb;
+
+reg  [7:0] A, B;
+reg  [2:0] sel;
+wire [7:0] R;
+wire C, Z, V, N;
+
+alu_8bit uut (
+    .A(A),
+    .B(B),
+    .sel(sel),
+    .R(R),
+    .C(C),
+    .Z(Z),
+    .V(V),
+    .N(N)
+);
+
+initial begin
+
+    $display("A=%d B=%d sel=%b | R=%d C=%b Z=%b V=%b N=%b",
+              A, B, sel, R, C, Z, V, N);
+
+    // ADDITION
+    A = 20;  B = 10;  sel = 3'b000; #10;
+    $display("A=%d B=%d sel=%b | R=%d C=%b Z=%b V=%b N=%b",
+              A, B, sel, R, C, Z, V, N);
+
+    A = 200; B = 100; sel = 3'b000; #10;
+    $display("A=%d B=%d sel=%b | R=%d C=%b Z=%b V=%b N=%b",
+              A, B, sel, R, C, Z, V, N);
+
+    // SUBTRACTION
+    A = 50;  B = 50;  sel = 3'b001; #10;
+    $display("A=%d B=%d sel=%b | R=%d C=%b Z=%b V=%b N=%b",
+              A, B, sel, R, C, Z, V, N);
+
+    A = 5;   B = 10;  sel = 3'b001; #10;
+    $display("A=%d B=%d sel=%b | R=%d C=%b Z=%b V=%b N=%b",
+              A, B, sel, R, C, Z, V, N);
+
+    // LOGICAL
+    A = 12;  B = 5;   sel = 3'b010; #10; // AND
+    A = 12;  B = 5;   sel = 3'b011; #10; // OR
+    A = 12;  B = 5;   sel = 3'b100; #10; // XOR
+
+    $stop;
+
+end
+
+endmodule
